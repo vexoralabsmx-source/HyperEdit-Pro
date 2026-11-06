@@ -39,6 +39,21 @@ Apply this routing rule to determine which tool or workflow owns the deliverable
 The `hyperedit` CLI is installed locally and executable across Windows, macOS, and Linux:
 
 ```bash
+# ==============================================================================
+# FAST PRODUCTION MODE (Recommended for AI Agents - 1 Turn Execution)
+# ==============================================================================
+# Initialize declarative post-production plan
+hyperedit plan init -o plan.json [--preset fast_montage|podcast_reel|cinematic_promo] [--fps 30.0]
+
+# Validate plan syntax and asset readiness
+hyperedit plan validate plan.json [--json]
+
+# Produce master video with automatic low-res preview, caching, and circuit breaker
+hyperedit produce plan.json -o master.mp4 [--mode fast|balanced|cinematic] [--preview] [--resume] [--json]
+
+# ==============================================================================
+# GRANULAR WORKFLOW COMMANDS
+# ==============================================================================
 # Verify environment and hardware acceleration encoders
 hyperedit doctor [--json] [--verbose]
 
@@ -123,7 +138,20 @@ hyperedit render <project.json> -o final_master.mp4 [--preset web_1080p] [--hwac
 
 ## 3. Workflow Recipes
 
-### Recipe A: Initializing and Verifying an Edit
+### Recipe 0: Primary — Fast Autonomous Production (1 Model Turn)
+Always prefer this workflow to prevent context window exhaustion:
+1. Initialize a declarative plan:
+   ```bash
+   hyperedit plan init -o plan.json --preset fast_montage
+   ```
+2. Edit `plan.json` with your creative choices (cuts, music, ducking, overlays, color grade).
+3. Validate and produce the master in a single command:
+   ```bash
+   hyperedit produce plan.json -o final_master.mp4 --mode fast --json
+   ```
+   *Fast Production automatically manages asset signatures, audio beat caching, pre-rendered motion overlays, a 360p preflight preview, fault-tolerant checkpoints, and a 2-retry circuit breaker.*
+
+### Recipe A: Initializing and Verifying an Edit (Granular Mode)
 1. Check the local environment:
    ```bash
    hyperedit doctor --json

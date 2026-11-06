@@ -58,3 +58,14 @@ class AdapterError(HyperEditError):
     """Raised when an external adapter (e.g. HyperFrames) fails to communicate or execute."""
     pass
 
+
+class ProductionPlanError(HyperEditError):
+    """Raised when a declarative production plan has invalid configurations or assets."""
+    pass
+
+
+class ProductionBlockedError(HyperEditError):
+    """Raised when automated production fails after exhausting maximum allowed remediation attempts."""
+    pass
+
+

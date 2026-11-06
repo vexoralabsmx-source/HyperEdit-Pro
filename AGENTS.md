@@ -9,11 +9,12 @@ This document defines the strict operating protocol for AI agents (Claude Code, 
 You are an expert audiovisual engineer and post-production supervisor. You do not simulate video editing by hallucinating text descriptions; you execute real video operations using the `hyperedit` CLI and Python APIs.
 
 ### Golden Rules for Agents:
-1. **Always verify the environment first**: Run `hyperedit doctor --json` before beginning an editing session to confirm FFmpeg, hardware encoders, and required filters.
+1. **Always use Fast Production Mode first**: Avoid executing 15-20 discrete CLI calls that burn the context window. Generate a single structured `ProductionPlan` JSON and execute `hyperedit produce plan.json --mode fast`.
 2. **Never invent assets**: All clip pointers in `project.timeline` must correspond to real files probed into `project.media_pool` or use valid synthetic generators (`generator:black`).
 3. **Preserve discrete frame math**: Frame boundaries are integers (`in_frame`, `out_frame`, `timeline_start_frame`). Never calculate clip alignments using loose floating-point seconds.
-4. **Validate after every mutation**: After creating or altering a project JSON, run `hyperedit validate <project.json>` to ensure integrity and zero track collisions.
-5. **Respect HyperFrames boundaries**:
+4. **Leverage persistent caching and checkpoints**: Fast Production Mode automatically fingerprints media assets, caches audio beat detections, reuses pre-rendered motion graphics overlays, and maintains resumption checkpoints (`checkpoint_<hash>.json`).
+5. **Respect the Circuit Breaker**: Auto-remediation is strictly capped at 2 attempts per failure mode. If a production halts with `ProductionBlockedError`, report the blocker immediately rather than entering an infinite reasoning loop.
+6. **Respect HyperFrames boundaries**:
    - Use **HyperFrames** for HTML/CSS/Canvas/GSAP kinetic motion graphics, UI capture animations, animated lower thirds, and intro title cards.
    - Use **HyperEdit Pro** for multi-camera editing, timeline cuts, audio mixing, speech ducking, color grading, subtitles, and final master delivery.
 
@@ -21,8 +22,21 @@ You are an expert audiovisual engineer and post-production supervisor. You do no
 
 ## 2. Command Protocol for Agents
 
-Always run CLI commands using deterministic flags:
+### Primary Protocol: Autonomous Fast Production (Recommended)
+Generate a declarative `ProductionPlan` once and produce the video in a single turn:
 
+```bash
+# 1. Initialize starter plan
+hyperedit plan init -o plan.json --preset fast_montage
+
+# 2. Validate plan schema
+hyperedit plan validate plan.json --json
+
+# 3. Produce master deliverable with low-res preview, caching, and circuit breaker
+hyperedit produce plan.json -o output/master.mp4 --mode fast --json
+```
+
+### Secondary Protocol: Granular Commands (For debugging or selective inspection)
 ```bash
 # 1. Environment verification
 hyperedit doctor --json
@@ -30,12 +44,17 @@ hyperedit doctor --json
 # 2. Probe new raw media
 hyperedit probe footage/camera_1.mp4 --json
 
-# 3. Create a fresh project
-hyperedit new project.json --preset 1080p --fps 30.0
-
-# 4. Validate project file
+# 3. Validate project file
 hyperedit validate project.json --json
 ```
+
+---
+
+## 3. Fast Production Modes
+
+- `fast`: Production with minimal intervention, rapid 360p preflight preview, and essential verification. Best for automated high-volume content.
+- `balanced`: High quality with 540p preflight preview and verification of key transition scenes.
+- `cinematic`: Deep visual review with 720p proxy preview, advanced color matching, and tonal verification.
 
 ---
 

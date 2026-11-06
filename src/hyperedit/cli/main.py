@@ -20,7 +20,9 @@ from hyperedit.cli.commands.doctor_cmd import doctor_command
 from hyperedit.cli.commands.media_cmd import media_group
 from hyperedit.cli.commands.motion_cmd import motion_group
 from hyperedit.cli.commands.new_cmd import new_command
+from hyperedit.cli.commands.plan_cmd import plan_group
 from hyperedit.cli.commands.probe_cmd import probe_command
+from hyperedit.cli.commands.produce_cmd import produce_command
 from hyperedit.cli.commands.project_cmd import project_group
 from hyperedit.cli.commands.render_cmd import render_command
 from hyperedit.cli.commands.timeline_cmd import timeline_group
@@ -56,6 +58,8 @@ cli.add_command(media_group)
 cli.add_command(timeline_group)
 cli.add_command(project_group)
 cli.add_command(render_command)
+cli.add_command(produce_command)
+cli.add_command(plan_group)
 cli.add_command(audio_group)
 cli.add_command(captions_group)
 cli.add_command(color_group)
