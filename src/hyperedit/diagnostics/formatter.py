@@ -1,5 +1,6 @@
 """Formatting utilities for diagnostic reports."""
 
+import sys
 from hyperedit.diagnostics.checker import DiagnosticReport, DiagnosticStatus
 
 
@@ -41,19 +42,25 @@ class DiagnosticFormatter:
         lines.append("------------------------------------------------------")
         lines.append(f"{bold}Component Checks:{reset}")
 
+        is_win = sys.platform == "win32"
+        ok_sym = "[OK]" if is_win else "✓"
+        warn_sym = "[!]" if is_win else "▲"
+        err_sym = "[X]" if is_win else "✗"
+        bullet_sym = "-" if is_win else "•"
+
         for check in report.checks:
             if check.status == DiagnosticStatus.OK:
-                icon = f"{green}✓{reset}"
+                icon = f"{green}{ok_sym}{reset}"
             elif check.status == DiagnosticStatus.WARNING:
-                icon = f"{yellow}▲{reset}"
+                icon = f"{yellow}{warn_sym}{reset}"
             else:
-                icon = f"{red}✗{reset}"
+                icon = f"{red}{err_sym}{reset}"
 
             lines.append(f"  {icon} {bold}{check.name}{reset}: {check.message}")
 
             if verbose and check.details:
                 for k, v in check.details.items():
-                    lines.append(f"      {cyan}• {k}:{reset} {v}")
+                    lines.append(f"      {cyan}{bullet_sym} {k}:{reset} {v}")
 
             if check.remediation and check.status != DiagnosticStatus.OK:
                 lines.append(f"      {yellow}Remedy:{reset} {check.remediation}")

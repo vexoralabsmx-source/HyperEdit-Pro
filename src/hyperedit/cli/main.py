@@ -1,6 +1,16 @@
 """Main CLI entrypoint for HyperEdit Pro."""
 
+import sys
 import click
+
+if sys.platform == "win32":
+    try:
+        if hasattr(sys.stdout, "reconfigure"):
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        if hasattr(sys.stderr, "reconfigure"):
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 from hyperedit import __version__
 from hyperedit.cli.commands.audio_cmd import audio_group
