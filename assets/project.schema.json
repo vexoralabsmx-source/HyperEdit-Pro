@@ -1,0 +1,1794 @@
+{
+  "$defs": {
+    "ASC_CDL": {
+      "description": "ASC Color Decision List (Slope, Offset, Power, Saturation).",
+      "properties": {
+        "slope": {
+          "default": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "description": "RGB slope (multiplication)",
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Slope",
+          "type": "array"
+        },
+        "offset": {
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "description": "RGB offset (addition)",
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Offset",
+          "type": "array"
+        },
+        "power": {
+          "default": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "description": "RGB power (gamma exponent)",
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Power",
+          "type": "array"
+        },
+        "saturation": {
+          "default": 1.0,
+          "description": "Color saturation multiplier",
+          "maximum": 4.0,
+          "minimum": 0.0,
+          "title": "Saturation",
+          "type": "number"
+        }
+      },
+      "title": "ASC_CDL",
+      "type": "object"
+    },
+    "AnimatedProperty": {
+      "description": "Dynamic property driven by keyframes.",
+      "properties": {
+        "property_name": {
+          "description": "e.g. position_x, scale, opacity, volume",
+          "title": "Property Name",
+          "type": "string"
+        },
+        "base_value": {
+          "default": 0.0,
+          "title": "Base Value",
+          "type": "number"
+        },
+        "keyframes": {
+          "items": {
+            "$ref": "#/$defs/Keyframe"
+          },
+          "title": "Keyframes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "property_name"
+      ],
+      "title": "AnimatedProperty",
+      "type": "object"
+    },
+    "AudioCodec": {
+      "enum": [
+        "aac",
+        "opus",
+        "pcm_s16le",
+        "pcm_s24le",
+        "mp3",
+        "copy"
+      ],
+      "title": "AudioCodec",
+      "type": "string"
+    },
+    "AudioMixConfig": {
+      "description": "Audio bus or track mixing configuration.",
+      "properties": {
+        "volume_db": {
+          "default": 0.0,
+          "description": "Track fader in dB",
+          "maximum": 12.0,
+          "minimum": -96.0,
+          "title": "Volume Db",
+          "type": "number"
+        },
+        "pan": {
+          "default": 0.0,
+          "description": "Stereo pan (-1.0 Left, 1.0 Right)",
+          "maximum": 1.0,
+          "minimum": -1.0,
+          "title": "Pan",
+          "type": "number"
+        },
+        "mute": {
+          "default": false,
+          "title": "Mute",
+          "type": "boolean"
+        },
+        "solo": {
+          "default": false,
+          "title": "Solo",
+          "type": "boolean"
+        },
+        "ducking": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DuckingConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "loudness_normalization": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LoudnessTarget"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "effects": {
+          "items": {
+            "$ref": "#/$defs/Effect"
+          },
+          "title": "Effects",
+          "type": "array"
+        }
+      },
+      "title": "AudioMixConfig",
+      "type": "object"
+    },
+    "AudioStreamInfo": {
+      "description": "Detailed audio stream parameters probed via ffprobe.",
+      "properties": {
+        "index": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "codec": {
+          "description": "Audio codec identifier, e.g. aac, pcm_s16le, opus, mp3",
+          "title": "Codec",
+          "type": "string"
+        },
+        "sample_rate": {
+          "default": 48000,
+          "exclusiveMinimum": 0,
+          "title": "Sample Rate",
+          "type": "integer"
+        },
+        "channels": {
+          "default": 2,
+          "minimum": 1,
+          "title": "Channels",
+          "type": "integer"
+        },
+        "channel_layout": {
+          "default": "stereo",
+          "title": "Channel Layout",
+          "type": "string"
+        },
+        "duration_seconds": {
+          "default": 0.0,
+          "minimum": 0.0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "bitrate_kbps": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bitrate Kbps"
+        }
+      },
+      "required": [
+        "codec"
+      ],
+      "title": "AudioStreamInfo",
+      "type": "object"
+    },
+    "Clip": {
+      "description": "A sliced segment of a media asset placed on the timeline.",
+      "properties": {
+        "clip_id": {
+          "description": "Unique clip instance ID on the timeline",
+          "title": "Clip Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "description": "Referenced media asset ID in MediaPool",
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "in_frame": {
+          "default": 0,
+          "description": "Source media in-point (start frame)",
+          "minimum": 0,
+          "title": "In Frame",
+          "type": "integer"
+        },
+        "out_frame": {
+          "description": "Source media out-point (end frame)",
+          "exclusiveMinimum": 0,
+          "title": "Out Frame",
+          "type": "integer"
+        },
+        "timeline_start_frame": {
+          "default": 0,
+          "description": "Absolute frame on timeline",
+          "minimum": 0,
+          "title": "Timeline Start Frame",
+          "type": "integer"
+        },
+        "speed": {
+          "default": 1.0,
+          "description": "Playback speed multiplier",
+          "exclusiveMinimum": 0.0,
+          "maximum": 32.0,
+          "title": "Speed",
+          "type": "number"
+        },
+        "reverse": {
+          "default": false,
+          "description": "Play clip in reverse",
+          "title": "Reverse",
+          "type": "boolean"
+        },
+        "fit_mode": {
+          "default": "fit",
+          "description": "Framing fit mode: fit, fill, stretch, center",
+          "title": "Fit Mode",
+          "type": "string"
+        },
+        "volume_db": {
+          "default": 0.0,
+          "maximum": 12.0,
+          "minimum": -96.0,
+          "title": "Volume Db",
+          "type": "number"
+        },
+        "pan": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": -1.0,
+          "title": "Pan",
+          "type": "number"
+        },
+        "transform": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Transform"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "color_grade": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ColorGradeConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Transition"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Transition"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "effects": {
+          "items": {
+            "$ref": "#/$defs/Effect"
+          },
+          "title": "Effects",
+          "type": "array"
+        }
+      },
+      "required": [
+        "clip_id",
+        "asset_id",
+        "out_frame"
+      ],
+      "title": "Clip",
+      "type": "object"
+    },
+    "ColorGradeConfig": {
+      "description": "Color grading pipeline configuration applied via FFmpeg eq / curves / lut3d.",
+      "properties": {
+        "exposure_ev": {
+          "default": 0.0,
+          "description": "Exposure bias in EV stops",
+          "maximum": 5.0,
+          "minimum": -5.0,
+          "title": "Exposure Ev",
+          "type": "number"
+        },
+        "contrast": {
+          "default": 1.0,
+          "description": "Contrast multiplier (1.0 = neutral)",
+          "maximum": 3.0,
+          "minimum": 0.0,
+          "title": "Contrast",
+          "type": "number"
+        },
+        "saturation": {
+          "default": 1.0,
+          "description": "Saturation multiplier (1.0 = neutral)",
+          "maximum": 3.0,
+          "minimum": 0.0,
+          "title": "Saturation",
+          "type": "number"
+        },
+        "temperature": {
+          "default": 0.0,
+          "description": "Color temp shift: blue (-) to orange (+)",
+          "maximum": 100.0,
+          "minimum": -100.0,
+          "title": "Temperature",
+          "type": "number"
+        },
+        "tint": {
+          "default": 0.0,
+          "description": "Tint shift: green (-) to magenta (+)",
+          "maximum": 100.0,
+          "minimum": -100.0,
+          "title": "Tint",
+          "type": "number"
+        },
+        "cdl": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ASC_CDL"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "lift_gamma_gain": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LiftGammaGain"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "lut_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path to .cube or .3dl 3D LUT",
+          "title": "Lut Path"
+        },
+        "lut_interpolation": {
+          "$ref": "#/$defs/LUTInterpolation",
+          "default": "tetrahedral"
+        }
+      },
+      "title": "ColorGradeConfig",
+      "type": "object"
+    },
+    "ContainerFormat": {
+      "enum": [
+        "mp4",
+        "mov",
+        "mkv",
+        "webm",
+        "wav",
+        "mp3"
+      ],
+      "title": "ContainerFormat",
+      "type": "string"
+    },
+    "DuckingConfig": {
+      "description": "Sidechain ducking configuration for background music / ambiance tracks.",
+      "properties": {
+        "trigger_track_id": {
+          "description": "Track ID whose presence attenuates this track (e.g. voiceover track)",
+          "title": "Trigger Track Id",
+          "type": "string"
+        },
+        "attenuation_db": {
+          "default": -12.0,
+          "description": "Volume attenuation in decibels when trigger track is active",
+          "maximum": 0.0,
+          "minimum": -48.0,
+          "title": "Attenuation Db",
+          "type": "number"
+        },
+        "attack_ms": {
+          "default": 80.0,
+          "description": "Time taken to lower volume once trigger starts (milliseconds)",
+          "maximum": 2000.0,
+          "minimum": 5.0,
+          "title": "Attack Ms",
+          "type": "number"
+        },
+        "release_ms": {
+          "default": 400.0,
+          "description": "Time taken to restore volume after trigger ends (milliseconds)",
+          "maximum": 5000.0,
+          "minimum": 10.0,
+          "title": "Release Ms",
+          "type": "number"
+        },
+        "threshold_db": {
+          "default": -26.0,
+          "description": "Trigger audio detection threshold in dBFS",
+          "maximum": 0.0,
+          "minimum": -60.0,
+          "title": "Threshold Db",
+          "type": "number"
+        }
+      },
+      "required": [
+        "trigger_track_id"
+      ],
+      "title": "DuckingConfig",
+      "type": "object"
+    },
+    "Effect": {
+      "description": "Filter or DSP effect applied to a clip, track, or master output.",
+      "properties": {
+        "effect_id": {
+          "description": "Unique effect identifier",
+          "title": "Effect Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EffectKind",
+          "description": "Category of filter / effect"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "description": "Filter-specific arguments",
+          "title": "Parameters",
+          "type": "object"
+        },
+        "keyframes": {
+          "description": "Optional parameter keyframing",
+          "items": {
+            "$ref": "#/$defs/Keyframe"
+          },
+          "title": "Keyframes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "effect_id",
+        "kind"
+      ],
+      "title": "Effect",
+      "type": "object"
+    },
+    "EffectKind": {
+      "enum": [
+        "color_grade",
+        "lut3d",
+        "gaussian_blur",
+        "box_blur",
+        "sharpen",
+        "chroma_key",
+        "denoise",
+        "vignette",
+        "custom_video_filter",
+        "parametric_eq",
+        "compressor",
+        "limiter",
+        "noise_gate",
+        "loudnorm",
+        "reverb",
+        "custom_audio_filter"
+      ],
+      "title": "EffectKind",
+      "type": "string"
+    },
+    "ExportPreset": {
+      "description": "Specification for deterministic FFmpeg delivery encoding.",
+      "properties": {
+        "name": {
+          "description": "Preset name, e.g. 'web_1080p', 'prores_422hq'",
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "container": {
+          "$ref": "#/$defs/ContainerFormat",
+          "default": "mp4"
+        },
+        "video_codec": {
+          "$ref": "#/$defs/VideoCodec",
+          "default": "h264"
+        },
+        "audio_codec": {
+          "$ref": "#/$defs/AudioCodec",
+          "default": "aac"
+        },
+        "width": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width"
+        },
+        "height": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Height"
+        },
+        "fps": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fps"
+        },
+        "crf": {
+          "anyOf": [
+            {
+              "maximum": 51,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 20,
+          "title": "Crf"
+        },
+        "bitrate_kbps": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bitrate Kbps"
+        },
+        "preset_speed": {
+          "default": "medium",
+          "description": "FFmpeg preset e.g. veryfast, medium, slow, p4",
+          "title": "Preset Speed",
+          "type": "string"
+        },
+        "pixel_format": {
+          "default": "yuv420p",
+          "title": "Pixel Format",
+          "type": "string"
+        },
+        "audio_bitrate_kbps": {
+          "default": 192,
+          "exclusiveMinimum": 0,
+          "title": "Audio Bitrate Kbps",
+          "type": "integer"
+        },
+        "audio_sample_rate": {
+          "default": 48000,
+          "exclusiveMinimum": 0,
+          "title": "Audio Sample Rate",
+          "type": "integer"
+        },
+        "hwaccel": {
+          "$ref": "#/$defs/HardwareAccel",
+          "default": "auto"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "ExportPreset",
+      "type": "object"
+    },
+    "HardwareAccel": {
+      "enum": [
+        "auto",
+        "none",
+        "nvenc",
+        "qsv",
+        "videotoolbox",
+        "amf",
+        "vaapi"
+      ],
+      "title": "HardwareAccel",
+      "type": "string"
+    },
+    "InterpolationMode": {
+      "enum": [
+        "linear",
+        "ease_in",
+        "ease_out",
+        "ease_in_out",
+        "bezier",
+        "hold"
+      ],
+      "title": "InterpolationMode",
+      "type": "string"
+    },
+    "Keyframe": {
+      "description": "A value keyframe along a clip or effect timeline.",
+      "properties": {
+        "frame": {
+          "description": "Relative frame index from clip start",
+          "minimum": 0,
+          "title": "Frame",
+          "type": "integer"
+        },
+        "value": {
+          "description": "Interpolated target value",
+          "title": "Value",
+          "type": "number"
+        },
+        "interpolation": {
+          "$ref": "#/$defs/InterpolationMode",
+          "default": "linear"
+        },
+        "bezier_handles": {
+          "anyOf": [
+            {
+              "maxItems": 4,
+              "minItems": 4,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Cubic bezier control points (p1_x, p1_y, p2_x, p2_y)",
+          "title": "Bezier Handles"
+        }
+      },
+      "required": [
+        "frame",
+        "value"
+      ],
+      "title": "Keyframe",
+      "type": "object"
+    },
+    "LUTInterpolation": {
+      "enum": [
+        "nearest",
+        "trilinear",
+        "tetrahedral"
+      ],
+      "title": "LUTInterpolation",
+      "type": "string"
+    },
+    "LiftGammaGain": {
+      "description": "Three-way color wheel adjustments.",
+      "properties": {
+        "lift": {
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "description": "Shadows (RGB)",
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Lift",
+          "type": "array"
+        },
+        "gamma": {
+          "default": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "description": "Midtones (RGB)",
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Gamma",
+          "type": "array"
+        },
+        "gain": {
+          "default": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "description": "Highlights (RGB)",
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Gain",
+          "type": "array"
+        }
+      },
+      "title": "LiftGammaGain",
+      "type": "object"
+    },
+    "LoudnessTarget": {
+      "description": "EBU R128 / ITU-R BS.1770 broadcast and streaming loudness target.",
+      "properties": {
+        "target_i": {
+          "default": -23.0,
+          "description": "Integrated Loudness Target in LUFS (e.g. -23 for EBU, -14 for YouTube)",
+          "title": "Target I",
+          "type": "number"
+        },
+        "target_lra": {
+          "default": 7.0,
+          "description": "Loudness Range target in LU",
+          "maximum": 50.0,
+          "minimum": 1.0,
+          "title": "Target Lra",
+          "type": "number"
+        },
+        "target_tp": {
+          "default": -1.0,
+          "description": "Maximum True Peak in dBFS (typically -1.0 or -1.5)",
+          "maximum": 0.0,
+          "title": "Target Tp",
+          "type": "number"
+        }
+      },
+      "title": "LoudnessTarget",
+      "type": "object"
+    },
+    "Marker": {
+      "description": "Timeline temporal bookmark or note.",
+      "properties": {
+        "marker_id": {
+          "title": "Marker Id",
+          "type": "string"
+        },
+        "frame": {
+          "minimum": 0,
+          "title": "Frame",
+          "type": "integer"
+        },
+        "name": {
+          "default": "Marker",
+          "title": "Name",
+          "type": "string"
+        },
+        "color": {
+          "default": "#00FF00",
+          "title": "Color",
+          "type": "string"
+        },
+        "comment": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Comment"
+        }
+      },
+      "required": [
+        "marker_id",
+        "frame"
+      ],
+      "title": "Marker",
+      "type": "object"
+    },
+    "MediaAsset": {
+      "description": "Registered media asset in the project media pool.",
+      "properties": {
+        "asset_id": {
+          "description": "Unique alphanumeric identifier for the asset",
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "file_path": {
+          "description": "Absolute or project-relative file path",
+          "title": "File Path",
+          "type": "string"
+        },
+        "format_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Container format, e.g. mov,mp4,m4a,3gp,3g2,mj2",
+          "title": "Format Name"
+        },
+        "duration_seconds": {
+          "default": 0.0,
+          "minimum": 0.0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "size_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "video_streams": {
+          "items": {
+            "$ref": "#/$defs/VideoStreamInfo"
+          },
+          "title": "Video Streams",
+          "type": "array"
+        },
+        "audio_streams": {
+          "items": {
+            "$ref": "#/$defs/AudioStreamInfo"
+          },
+          "title": "Audio Streams",
+          "type": "array"
+        },
+        "subtitle_streams": {
+          "items": {
+            "$ref": "#/$defs/SubtitleStreamInfo"
+          },
+          "title": "Subtitle Streams",
+          "type": "array"
+        },
+        "hash_sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hash Sha256"
+        }
+      },
+      "required": [
+        "asset_id",
+        "file_path"
+      ],
+      "title": "MediaAsset",
+      "type": "object"
+    },
+    "MediaPool": {
+      "description": "Dictionary of registered media assets keyed by asset_id.",
+      "properties": {
+        "assets": {
+          "additionalProperties": {
+            "$ref": "#/$defs/MediaAsset"
+          },
+          "title": "Assets",
+          "type": "object"
+        }
+      },
+      "title": "MediaPool",
+      "type": "object"
+    },
+    "ProjectMetadata": {
+      "description": "Informational metadata for the project.",
+      "properties": {
+        "title": {
+          "default": "Untitled HyperEdit Project",
+          "title": "Title",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "HyperEdit Agent",
+          "title": "Author"
+        },
+        "created_at": {
+          "title": "Created At",
+          "type": "string"
+        },
+        "updated_at": {
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "title": "ProjectMetadata",
+      "type": "object"
+    },
+    "ProjectSettings": {
+      "description": "Global audiovisual configuration for the project master.",
+      "properties": {
+        "width": {
+          "default": 1920,
+          "description": "Canvas master width in pixels",
+          "exclusiveMinimum": 0,
+          "title": "Width",
+          "type": "integer"
+        },
+        "height": {
+          "default": 1080,
+          "description": "Canvas master height in pixels",
+          "exclusiveMinimum": 0,
+          "title": "Height",
+          "type": "integer"
+        },
+        "fps": {
+          "default": 30.0,
+          "description": "Timeline base frame rate",
+          "exclusiveMinimum": 0.0,
+          "title": "Fps",
+          "type": "number"
+        },
+        "sample_rate": {
+          "default": 48000,
+          "description": "Master audio sample rate in Hz",
+          "title": "Sample Rate",
+          "type": "integer"
+        },
+        "audio_channels": {
+          "default": 2,
+          "description": "Master audio channels (2 = stereo)",
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Audio Channels",
+          "type": "integer"
+        },
+        "color_space": {
+          "default": "bt709",
+          "description": "Master color space, e.g. bt709, bt2020nc",
+          "title": "Color Space",
+          "type": "string"
+        },
+        "working_pixel_format": {
+          "default": "yuv420p",
+          "title": "Working Pixel Format",
+          "type": "string"
+        }
+      },
+      "title": "ProjectSettings",
+      "type": "object"
+    },
+    "SubtitleAlignment": {
+      "enum": [
+        "bottom_center",
+        "bottom_left",
+        "bottom_right",
+        "top_center",
+        "middle_center"
+      ],
+      "title": "SubtitleAlignment",
+      "type": "string"
+    },
+    "SubtitleCue": {
+      "description": "A single subtitle text segment timed in milliseconds.",
+      "properties": {
+        "cue_id": {
+          "description": "Unique cue identifier",
+          "title": "Cue Id",
+          "type": "string"
+        },
+        "start_ms": {
+          "description": "Start offset in milliseconds",
+          "minimum": 0,
+          "title": "Start Ms",
+          "type": "integer"
+        },
+        "end_ms": {
+          "description": "End offset in milliseconds",
+          "exclusiveMinimum": 0,
+          "title": "End Ms",
+          "type": "integer"
+        },
+        "text": {
+          "description": "Caption text content",
+          "title": "Text",
+          "type": "string"
+        },
+        "speaker": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Speaker name or label",
+          "title": "Speaker"
+        },
+        "style_override": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SubtitleStyle"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "cue_id",
+        "start_ms",
+        "end_ms",
+        "text"
+      ],
+      "title": "SubtitleCue",
+      "type": "object"
+    },
+    "SubtitleStreamInfo": {
+      "description": "Embedded subtitle stream probed via ffprobe.",
+      "properties": {
+        "index": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "codec": {
+          "default": "subrip",
+          "title": "Codec",
+          "type": "string"
+        },
+        "language": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "und",
+          "title": "Language"
+        }
+      },
+      "title": "SubtitleStreamInfo",
+      "type": "object"
+    },
+    "SubtitleStyle": {
+      "description": "ASS / libass compatible typographic subtitle styling.",
+      "properties": {
+        "font_name": {
+          "default": "Arial",
+          "description": "System font family name",
+          "title": "Font Name",
+          "type": "string"
+        },
+        "font_size": {
+          "default": 24,
+          "maximum": 120,
+          "minimum": 8,
+          "title": "Font Size",
+          "type": "integer"
+        },
+        "primary_color_hex": {
+          "default": "#FFFFFF",
+          "description": "Hex color with optional alpha, e.g. #FFFFFF",
+          "title": "Primary Color Hex",
+          "type": "string"
+        },
+        "outline_color_hex": {
+          "default": "#000000",
+          "description": "Hex outline color",
+          "title": "Outline Color Hex",
+          "type": "string"
+        },
+        "outline_width": {
+          "default": 2.0,
+          "maximum": 10.0,
+          "minimum": 0.0,
+          "title": "Outline Width",
+          "type": "number"
+        },
+        "shadow_offset": {
+          "default": 1.0,
+          "maximum": 10.0,
+          "minimum": 0.0,
+          "title": "Shadow Offset",
+          "type": "number"
+        },
+        "bold": {
+          "default": true,
+          "title": "Bold",
+          "type": "boolean"
+        },
+        "italic": {
+          "default": false,
+          "title": "Italic",
+          "type": "boolean"
+        },
+        "alignment": {
+          "$ref": "#/$defs/SubtitleAlignment",
+          "default": "bottom_center"
+        },
+        "margin_v": {
+          "default": 40,
+          "description": "Vertical margin from boundary in pixels",
+          "minimum": 0,
+          "title": "Margin V",
+          "type": "integer"
+        }
+      },
+      "title": "SubtitleStyle",
+      "type": "object"
+    },
+    "SubtitleTrack": {
+      "description": "Subtitle layer containing timed cues and styling.",
+      "properties": {
+        "track_id": {
+          "description": "Unique track identifier",
+          "title": "Track Id",
+          "type": "string"
+        },
+        "name": {
+          "default": "Subtitles",
+          "title": "Name",
+          "type": "string"
+        },
+        "language": {
+          "default": "eng",
+          "description": "ISO 639-2 language code, e.g. eng, spa, fra",
+          "title": "Language",
+          "type": "string"
+        },
+        "burn_in": {
+          "default": true,
+          "description": "Whether to render burned-in into video or export sidecar",
+          "title": "Burn In",
+          "type": "boolean"
+        },
+        "default_style": {
+          "$ref": "#/$defs/SubtitleStyle"
+        },
+        "cues": {
+          "items": {
+            "$ref": "#/$defs/SubtitleCue"
+          },
+          "title": "Cues",
+          "type": "array"
+        }
+      },
+      "required": [
+        "track_id"
+      ],
+      "title": "SubtitleTrack",
+      "type": "object"
+    },
+    "Timeline": {
+      "description": "Complete multi-track timeline container.",
+      "properties": {
+        "tracks": {
+          "items": {
+            "$ref": "#/$defs/Track"
+          },
+          "title": "Tracks",
+          "type": "array"
+        },
+        "markers": {
+          "items": {
+            "$ref": "#/$defs/Marker"
+          },
+          "title": "Markers",
+          "type": "array"
+        }
+      },
+      "title": "Timeline",
+      "type": "object"
+    },
+    "Track": {
+      "description": "An ordered horizontal track on the timeline containing clips.",
+      "properties": {
+        "track_id": {
+          "description": "Unique track ID (e.g. 'V1', 'A1', 'SUB1')",
+          "title": "Track Id",
+          "type": "string"
+        },
+        "name": {
+          "default": "Track",
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/TrackKind",
+          "default": "video"
+        },
+        "index": {
+          "default": 0,
+          "description": "Z-index / track order (0 = lowest)",
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "muted": {
+          "default": false,
+          "title": "Muted",
+          "type": "boolean"
+        },
+        "solo": {
+          "default": false,
+          "title": "Solo",
+          "type": "boolean"
+        },
+        "locked": {
+          "default": false,
+          "title": "Locked",
+          "type": "boolean"
+        },
+        "mix_config": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AudioMixConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "color_grade": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ColorGradeConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "clips": {
+          "items": {
+            "$ref": "#/$defs/Clip"
+          },
+          "title": "Clips",
+          "type": "array"
+        }
+      },
+      "required": [
+        "track_id"
+      ],
+      "title": "Track",
+      "type": "object"
+    },
+    "TrackKind": {
+      "enum": [
+        "video",
+        "audio",
+        "subtitle",
+        "graphic",
+        "adjustment"
+      ],
+      "title": "TrackKind",
+      "type": "string"
+    },
+    "Transform": {
+      "description": "2D spatial transform and opacity configuration.",
+      "properties": {
+        "position_x": {
+          "default": 0.0,
+          "description": "Horizontal pixel offset from anchor",
+          "title": "Position X",
+          "type": "number"
+        },
+        "position_y": {
+          "default": 0.0,
+          "description": "Vertical pixel offset from anchor",
+          "title": "Position Y",
+          "type": "number"
+        },
+        "scale_x": {
+          "default": 1.0,
+          "description": "Horizontal scale multiplier",
+          "minimum": 0.0,
+          "title": "Scale X",
+          "type": "number"
+        },
+        "scale_y": {
+          "default": 1.0,
+          "description": "Vertical scale multiplier",
+          "minimum": 0.0,
+          "title": "Scale Y",
+          "type": "number"
+        },
+        "rotation_deg": {
+          "default": 0.0,
+          "description": "Clockwise rotation in degrees",
+          "title": "Rotation Deg",
+          "type": "number"
+        },
+        "anchor_x": {
+          "default": 0.5,
+          "description": "Normalized anchor X (0.5 = center)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Anchor X",
+          "type": "number"
+        },
+        "anchor_y": {
+          "default": 0.5,
+          "description": "Normalized anchor Y (0.5 = center)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Anchor Y",
+          "type": "number"
+        },
+        "opacity": {
+          "default": 1.0,
+          "description": "Opacity (0.0 to 1.0)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Opacity",
+          "type": "number"
+        },
+        "crop_top": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Crop Top",
+          "type": "number"
+        },
+        "crop_bottom": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Crop Bottom",
+          "type": "number"
+        },
+        "crop_left": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Crop Left",
+          "type": "number"
+        },
+        "crop_right": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Crop Right",
+          "type": "number"
+        },
+        "animated": {
+          "items": {
+            "$ref": "#/$defs/AnimatedProperty"
+          },
+          "title": "Animated",
+          "type": "array"
+        }
+      },
+      "title": "Transform",
+      "type": "object"
+    },
+    "Transition": {
+      "description": "Transition definition between two adjacent clips.",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/TransitionType",
+          "default": "crossfade"
+        },
+        "duration_frames": {
+          "default": 15,
+          "description": "Duration in timeline frames",
+          "exclusiveMinimum": 0,
+          "title": "Duration Frames",
+          "type": "integer"
+        },
+        "alignment": {
+          "$ref": "#/$defs/TransitionAlignment",
+          "default": "center"
+        },
+        "easing": {
+          "$ref": "#/$defs/InterpolationMode",
+          "default": "ease_in_out"
+        },
+        "custom_parameters": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Custom Parameters"
+        }
+      },
+      "title": "Transition",
+      "type": "object"
+    },
+    "TransitionAlignment": {
+      "enum": [
+        "center",
+        "start_on_cut",
+        "end_on_cut"
+      ],
+      "title": "TransitionAlignment",
+      "type": "string"
+    },
+    "TransitionType": {
+      "enum": [
+        "fade",
+        "crossfade",
+        "dissolve",
+        "dip_to_black",
+        "dip_to_white",
+        "wipe_left",
+        "wipe_right",
+        "wipe_up",
+        "wipe_down",
+        "slide_left",
+        "slide_right",
+        "zoom_in",
+        "zoom_out"
+      ],
+      "title": "TransitionType",
+      "type": "string"
+    },
+    "VideoCodec": {
+      "enum": [
+        "h264",
+        "hevc",
+        "prores",
+        "vp9",
+        "av1",
+        "copy"
+      ],
+      "title": "VideoCodec",
+      "type": "string"
+    },
+    "VideoStreamInfo": {
+      "description": "Detailed video stream parameters probed via ffprobe.",
+      "properties": {
+        "index": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "codec": {
+          "description": "FFmpeg codec identifier, e.g. h264, hevc, prores",
+          "title": "Codec",
+          "type": "string"
+        },
+        "width": {
+          "exclusiveMinimum": 0,
+          "title": "Width",
+          "type": "integer"
+        },
+        "height": {
+          "exclusiveMinimum": 0,
+          "title": "Height",
+          "type": "integer"
+        },
+        "fps": {
+          "exclusiveMinimum": 0,
+          "title": "Fps",
+          "type": "number"
+        },
+        "duration_seconds": {
+          "default": 0.0,
+          "minimum": 0.0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "pixel_format": {
+          "default": "yuv420p",
+          "title": "Pixel Format",
+          "type": "string"
+        },
+        "bit_depth": {
+          "default": 8,
+          "maximum": 16,
+          "minimum": 8,
+          "title": "Bit Depth",
+          "type": "integer"
+        },
+        "aspect_ratio": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "16:9",
+          "title": "Aspect Ratio"
+        },
+        "color_space": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Color Space"
+        },
+        "color_primaries": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Color Primaries"
+        },
+        "color_transfer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Color Transfer"
+        },
+        "bitrate_kbps": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bitrate Kbps"
+        }
+      },
+      "required": [
+        "codec",
+        "width",
+        "height",
+        "fps"
+      ],
+      "title": "VideoStreamInfo",
+      "type": "object"
+    }
+  },
+  "description": "Root HyperEdit Pro Project format (v2.0).",
+  "properties": {
+    "schema_version": {
+      "default": "2.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "metadata": {
+      "$ref": "#/$defs/ProjectMetadata"
+    },
+    "settings": {
+      "$ref": "#/$defs/ProjectSettings"
+    },
+    "media_pool": {
+      "$ref": "#/$defs/MediaPool"
+    },
+    "timeline": {
+      "$ref": "#/$defs/Timeline"
+    },
+    "subtitles": {
+      "items": {
+        "$ref": "#/$defs/SubtitleTrack"
+      },
+      "title": "Subtitles",
+      "type": "array"
+    },
+    "export_presets": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ExportPreset"
+      },
+      "title": "Export Presets",
+      "type": "object"
+    }
+  },
+  "title": "Project",
+  "type": "object"
+}

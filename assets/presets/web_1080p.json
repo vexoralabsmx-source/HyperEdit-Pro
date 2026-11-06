@@ -1,0 +1,18 @@
+{
+  "name": "web_1080p",
+  "description": "Standard high-compatibility web delivery (1080p H.264 / AAC @ 48kHz)",
+  "container": "mp4",
+  "video_codec": "h264",
+  "audio_codec": "aac",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30.0,
+  "crf": 20,
+  "bitrate_kbps": null,
+  "preset_speed": "medium",
+  "pixel_format": "yuv420p",
+  "audio_bitrate_kbps": 192,
+  "audio_sample_rate": 48000,
+  "hwaccel": "auto"
+}
+

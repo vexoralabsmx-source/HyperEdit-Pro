@@ -1,0 +1,321 @@
+{
+  "schema_version": "2.0.0",
+  "metadata": {
+    "title": "AI & Future of Post-Production - Episode 42",
+    "description": "Multi-track podcast interview with automated BGM ducking, B-roll cutaways, and styled captions.",
+    "author": "HyperEdit Agent"
+  },
+  "settings": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30.0,
+    "sample_rate": 48000,
+    "audio_channels": 2,
+    "color_space": "bt709",
+    "working_pixel_format": "yuv420p"
+  },
+  "media_pool": {
+    "assets": {
+      "host_cam": {
+        "asset_id": "host_cam",
+        "file_path": "footage/cam_a_host.mp4",
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "duration_seconds": 60.0,
+        "size_bytes": 125829120,
+        "video_streams": [
+          {
+            "index": 0,
+            "codec": "h264",
+            "width": 1920,
+            "height": 1080,
+            "fps": 30.0,
+            "duration_seconds": 60.0,
+            "pixel_format": "yuv420p",
+            "bit_depth": 8
+          }
+        ],
+        "audio_streams": [
+          {
+            "index": 1,
+            "codec": "aac",
+            "sample_rate": 48000,
+            "channels": 2,
+            "channel_layout": "stereo",
+            "duration_seconds": 60.0
+          }
+        ]
+      },
+      "guest_cam": {
+        "asset_id": "guest_cam",
+        "file_path": "footage/cam_b_guest.mp4",
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "duration_seconds": 60.0,
+        "size_bytes": 125829120,
+        "video_streams": [
+          {
+            "index": 0,
+            "codec": "h264",
+            "width": 1920,
+            "height": 1080,
+            "fps": 30.0,
+            "duration_seconds": 60.0,
+            "pixel_format": "yuv420p",
+            "bit_depth": 8
+          }
+        ],
+        "audio_streams": [
+          {
+            "index": 1,
+            "codec": "aac",
+            "sample_rate": 48000,
+            "channels": 2,
+            "channel_layout": "stereo",
+            "duration_seconds": 60.0
+          }
+        ]
+      },
+      "bgm_lofi": {
+        "asset_id": "bgm_lofi",
+        "file_path": "audio/chill_beat.wav",
+        "format_name": "wav",
+        "duration_seconds": 90.0,
+        "size_bytes": 15876000,
+        "video_streams": [],
+        "audio_streams": [
+          {
+            "index": 0,
+            "codec": "pcm_s16le",
+            "sample_rate": 48000,
+            "channels": 2,
+            "channel_layout": "stereo",
+            "duration_seconds": 90.0
+          }
+        ]
+      }
+    }
+  },
+  "timeline": {
+    "tracks": [
+      {
+        "track_id": "V1",
+        "name": "Host Wide (Main)",
+        "kind": "video",
+        "index": 0,
+        "muted": false,
+        "solo": false,
+        "locked": false,
+        "clips": [
+          {
+            "clip_id": "clip_host_01",
+            "asset_id": "host_cam",
+            "name": "Host Intro",
+            "in_frame": 0,
+            "out_frame": 300,
+            "timeline_start_frame": 0,
+            "speed": 1.0,
+            "volume_db": 0.0,
+            "color_grade": {
+              "exposure_ev": 0.2,
+              "contrast": 1.05,
+              "saturation": 1.02,
+              "cdl": {
+                "slope": [1.02, 1.0, 0.98],
+                "offset": [0.0, 0.0, 0.01],
+                "power": [1.0, 1.0, 1.0],
+                "saturation": 1.05
+              }
+            }
+          },
+          {
+            "clip_id": "clip_host_02",
+            "asset_id": "host_cam",
+            "name": "Host Follow-up",
+            "in_frame": 600,
+            "out_frame": 900,
+            "timeline_start_frame": 600,
+            "speed": 1.0,
+            "volume_db": 0.0
+          }
+        ]
+      },
+      {
+        "track_id": "V2",
+        "name": "Guest Close-up",
+        "kind": "video",
+        "index": 1,
+        "muted": false,
+        "solo": false,
+        "locked": false,
+        "clips": [
+          {
+            "clip_id": "clip_guest_01",
+            "asset_id": "guest_cam",
+            "name": "Guest Answer",
+            "in_frame": 300,
+            "out_frame": 600,
+            "timeline_start_frame": 300,
+            "speed": 1.0,
+            "volume_db": 0.0,
+            "transition_in": {
+              "type": "dissolve",
+              "duration_frames": 10,
+              "alignment": "center",
+              "easing": "ease_in_out"
+            }
+          }
+        ]
+      },
+      {
+        "track_id": "A1",
+        "name": "Dialogue Track",
+        "kind": "audio",
+        "index": 2,
+        "mix_config": {
+          "volume_db": 0.0,
+          "pan": 0.0,
+          "mute": false,
+          "solo": false,
+          "loudness_normalization": {
+            "target_i": -16.0,
+            "target_lra": 7.0,
+            "target_tp": -1.0
+          }
+        },
+        "clips": [
+          {
+            "clip_id": "clip_audio_host_01",
+            "asset_id": "host_cam",
+            "name": "Host Mic",
+            "in_frame": 0,
+            "out_frame": 300,
+            "timeline_start_frame": 0,
+            "volume_db": 0.0
+          },
+          {
+            "clip_id": "clip_audio_guest_01",
+            "asset_id": "guest_cam",
+            "name": "Guest Mic",
+            "in_frame": 300,
+            "out_frame": 600,
+            "timeline_start_frame": 300,
+            "volume_db": 0.0
+          },
+          {
+            "clip_id": "clip_audio_host_02",
+            "asset_id": "host_cam",
+            "name": "Host Mic 2",
+            "in_frame": 600,
+            "out_frame": 900,
+            "timeline_start_frame": 600,
+            "volume_db": 0.0
+          }
+        ]
+      },
+      {
+        "track_id": "A2",
+        "name": "Background Music (BGM)",
+        "kind": "audio",
+        "index": 3,
+        "mix_config": {
+          "volume_db": -16.0,
+          "pan": 0.0,
+          "mute": false,
+          "solo": false,
+          "ducking": {
+            "trigger_track_id": "A1",
+            "attenuation_db": -14.0,
+            "attack_ms": 100.0,
+            "release_ms": 400.0,
+            "threshold_db": -28.0
+          }
+        },
+        "clips": [
+          {
+            "clip_id": "clip_bgm_01",
+            "asset_id": "bgm_lofi",
+            "name": "Lofi Track Bed",
+            "in_frame": 0,
+            "out_frame": 900,
+            "timeline_start_frame": 0,
+            "volume_db": 0.0
+          }
+        ]
+      }
+    ],
+    "markers": [
+      {
+        "marker_id": "mark_01",
+        "frame": 0,
+        "name": "Intro Hook",
+        "color": "#00FF00"
+      },
+      {
+        "marker_id": "mark_02",
+        "frame": 300,
+        "name": "Guest Introduction",
+        "color": "#0088FF"
+      },
+      {
+        "marker_id": "mark_03",
+        "frame": 600,
+        "name": "Discussion & Debate",
+        "color": "#FF8800"
+      }
+    ]
+  },
+  "subtitles": [
+    {
+      "track_id": "SUB1",
+      "name": "English Captions",
+      "language": "eng",
+      "burn_in": true,
+      "default_style": {
+        "font_name": "Montserrat",
+        "font_size": 28,
+        "primary_color_hex": "#FFFFFF",
+        "outline_color_hex": "#000000",
+        "outline_width": 2.5,
+        "shadow_offset": 1.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "bottom_center",
+        "margin_v": 45
+      },
+      "cues": [
+        {
+          "cue_id": "c1",
+          "start_ms": 500,
+          "end_ms": 3500,
+          "text": "Welcome to Episode 42! Today we explore autonomous AI video editing.",
+          "speaker": "Host"
+        },
+        {
+          "cue_id": "c2",
+          "start_ms": 3800,
+          "end_ms": 8200,
+          "text": "HyperEdit Pro bridges the gap between AI generation and professional post-production.",
+          "speaker": "Guest"
+        }
+      ]
+    }
+  ],
+  "export_presets": {
+    "youtube_4k": {
+      "name": "youtube_4k",
+      "description": "YouTube 4K Master",
+      "container": "mp4",
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "width": 3840,
+      "height": 2160,
+      "fps": 30.0,
+      "crf": 18,
+      "preset_speed": "slow",
+      "pixel_format": "yuv420p",
+      "audio_bitrate_kbps": 320,
+      "audio_sample_rate": 48000,
+      "hwaccel": "auto"
+    }
+  }
+}
+

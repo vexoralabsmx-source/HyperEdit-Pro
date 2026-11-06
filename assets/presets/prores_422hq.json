@@ -1,0 +1,18 @@
+{
+  "name": "prores_422hq",
+  "description": "Broadcast and mastering archive preset (Apple ProRes 422 HQ 10-bit PCM)",
+  "container": "mov",
+  "video_codec": "prores",
+  "audio_codec": "pcm_s24le",
+  "width": null,
+  "height": null,
+  "fps": null,
+  "crf": null,
+  "bitrate_kbps": null,
+  "preset_speed": "default",
+  "pixel_format": "yuv422p10le",
+  "audio_bitrate_kbps": 1152,
+  "audio_sample_rate": 48000,
+  "hwaccel": "none"
+}
+
