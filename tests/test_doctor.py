@@ -1,6 +1,5 @@
 """Tests for Environment Diagnostics checker."""
 
-from unittest.mock import MagicMock, patch
 from hyperedit.diagnostics.checker import DiagnosticReport, DiagnosticStatus, EnvironmentChecker
 from hyperedit.diagnostics.formatter import DiagnosticFormatter
 

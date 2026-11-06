@@ -1,11 +1,10 @@
 """Temporal beat synchronization and cut snapping for HyperEdit Pro."""
 
-import math
 from typing import List, Optional, Tuple, Union
 
 from hyperedit.audio.models import BeatAlignmentReport, BeatInfo, CutShiftDetail
 from hyperedit.core.exceptions import TimelineIntegrityError
-from hyperedit.core.models.timeline import Marker, Timeline, Track
+from hyperedit.core.models.timeline import Marker, Timeline
 
 
 class BeatSynchronizer:

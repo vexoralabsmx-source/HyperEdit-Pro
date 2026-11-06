@@ -1,7 +1,7 @@
 """Kinetic typography compiler generating dynamic word-level ASS subtitle scripts."""
 
 import re
-from typing import List, Optional
+from typing import List
 
 from hyperedit.captions.formats import (
     alignment_to_ass_numpad,
@@ -10,9 +10,7 @@ from hyperedit.captions.formats import (
 )
 from hyperedit.captions.models import (
     KineticAnimationMode,
-    SubtitleAlignment,
     SubtitleCue,
-    SubtitleStyle,
     SubtitleTrack,
     WordTimestamp,
 )

@@ -7,7 +7,7 @@ from hyperedit.core.models.captions import SubtitleTrack
 from hyperedit.core.models.export import ExportPreset
 from hyperedit.core.models.media import MediaAsset
 from hyperedit.core.models.project import Project
-from hyperedit.core.models.timeline import Clip, Timeline, Track
+from hyperedit.core.models.timeline import Clip, Timeline
 
 
 @runtime_checkable

@@ -1,6 +1,5 @@
 """Reversible operation history (Undo/Redo) for HyperEdit Pro timeline editing."""
 
-from copy import deepcopy
 from typing import List, Optional, Tuple
 
 from hyperedit.core.models.project import Project

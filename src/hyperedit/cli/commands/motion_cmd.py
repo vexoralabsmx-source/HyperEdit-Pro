@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Optional
 import click
 
-from hyperedit.adapters.hyperframes import CompositionTemplate, HyperFramesAdapter
+from hyperedit.adapters.hyperframes import HyperFramesAdapter
 from hyperedit.audio.beat_tracker import BeatTracker
 from hyperedit.core.models.project import Project
 from hyperedit.motion.presets import STANDARD_MOTION_PRESETS

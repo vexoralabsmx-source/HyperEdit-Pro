@@ -1,14 +1,12 @@
 """Deterministic FFmpeg filtergraph compiler for HyperEdit Pro timelines."""
 
-from fractions import Fraction
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 from hyperedit.core.exceptions import FiltergraphCompileError
 from hyperedit.core.models.export import ExportPreset
 from hyperedit.core.models.project import Project
-from hyperedit.core.models.timeline import Clip, Track, TrackKind
-from hyperedit.core.models.transitions import TransitionType
+from hyperedit.core.models.timeline import TrackKind
 
 
 def sanitize_label(name: str) -> str:

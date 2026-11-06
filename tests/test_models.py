@@ -1,6 +1,5 @@
 """Tests for Pydantic core data models, serialization, and integrity validation."""
 
-import json
 from pathlib import Path
 import pytest
 from pydantic import ValidationError
@@ -8,11 +7,7 @@ from pydantic import ValidationError
 from hyperedit.core.exceptions import TimelineIntegrityError
 from hyperedit.core.models import (
     Clip,
-    MediaAsset,
     Project,
-    Timeline,
-    Track,
-    TrackKind,
 )
 
 

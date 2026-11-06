@@ -18,7 +18,6 @@ from hyperedit.captions.models import (
     ReadabilityIssue,
     STANDARD_CAPTION_PRESETS,
     SubtitleCue,
-    SubtitleFormat,
     SubtitleStyle,
     SubtitleTrack,
 )

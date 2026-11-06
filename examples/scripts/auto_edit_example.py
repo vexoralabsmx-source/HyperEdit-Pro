@@ -2,12 +2,10 @@
 
 from pathlib import Path
 from hyperedit.core.models.color import ColorGradeConfig
-from hyperedit.core.models.export import ExportPreset, HardwareAccel
 from hyperedit.core.models.media import MediaAsset
 from hyperedit.core.models.project import Project, ProjectMetadata, ProjectSettings
 from hyperedit.core.models.timeline import Clip, Timeline, Track, TrackKind
 from hyperedit.core.models.transitions import Transition, TransitionType
-from hyperedit.rendering.engine import RenderEngine
 
 
 def create_sample_automated_project(output_json: Path) -> Project:

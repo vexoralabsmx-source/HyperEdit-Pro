@@ -1,7 +1,5 @@
 """CLI commands under 'hyperedit project' namespace."""
 
-from pathlib import Path
-import sys
 import click
 
 from hyperedit.cli.commands.new_cmd import new_command

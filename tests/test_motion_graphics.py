@@ -17,7 +17,6 @@ from hyperedit.core.models.transforms import (
     AnimatedProperty,
     InterpolationMode,
     Keyframe,
-    Transform,
 )
 from hyperedit.motion.engine import MotionEngine
 from hyperedit.motion.interpolator import KeyframeInterpolator, solve_bezier_y_for_x

@@ -1,7 +1,8 @@
 """Adobe / DaVinci Resolve .cube 3D Look-Up Table (LUT) parser, generator and interpolator."""
 
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List
+import cv2
 import numpy as np
 
 from hyperedit.core.exceptions import AdapterError, MediaNotFoundError

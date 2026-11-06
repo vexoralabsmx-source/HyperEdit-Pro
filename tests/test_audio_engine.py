@@ -11,12 +11,11 @@ from click.testing import CliRunner
 from hyperedit.audio.beat_sync import BeatSynchronizer
 from hyperedit.audio.beat_tracker import BeatTracker
 from hyperedit.audio.mixer import AudioMixer
-from hyperedit.audio.models import STANDARD_LOUDNESS_PROFILES, BeatInfo
 from hyperedit.cli.main import cli
 from hyperedit.core.models.audio import AudioMixConfig, DuckingConfig
 from hyperedit.core.models.media import MediaAsset
 from hyperedit.core.models.project import Project, ProjectMetadata, ProjectSettings
-from hyperedit.core.models.timeline import Clip, Marker, Timeline, Track, TrackKind
+from hyperedit.core.models.timeline import Clip, Timeline, Track, TrackKind
 
 
 @pytest.fixture

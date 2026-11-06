@@ -1,11 +1,7 @@
 """Comprehensive test suite for HyperEdit Pro Color Correction and Grading Engine."""
 
 import json
-import math
 from pathlib import Path
-import subprocess
-from typing import Generator
-import click
 from click.testing import CliRunner
 import cv2
 import numpy as np
@@ -17,8 +13,6 @@ from hyperedit.color.engine import ColorGradingEngine
 from hyperedit.color.presets import COLOR_PRESETS, blend_color_grades
 from hyperedit.core.models.color import (
     ColorGradeConfig,
-    ColorRange,
-    ColorStandard,
 )
 from hyperedit.core.models.export import ExportPreset, HardwareAccel
 from hyperedit.core.models.media import MediaAsset

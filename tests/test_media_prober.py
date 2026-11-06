@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 import pytest
 
-from hyperedit.core.exceptions import MediaNotFoundError, MediaProbeError
+from hyperedit.core.exceptions import MediaNotFoundError
 from hyperedit.media.prober import FFprobeProber
 
 

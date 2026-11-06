@@ -26,21 +26,22 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
 
-      - name: Install FFmpeg on Linux
+      - name: Install system dependencies on Linux
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get install -y libgl1 libglib2.0-0
 
-      - name: Install FFmpeg on macOS
-        if: runner.os == 'macOS'
-        run: |
-          brew install ffmpeg
+      - name: Set up FFmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v3
+        with:
+          ffmpeg-version: release
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install FFmpeg on Windows
-        if: runner.os == 'Windows'
+      - name: Verify FFmpeg and FFprobe
         run: |
-          choco install ffmpeg-full
+          ffmpeg -version
+          ffprobe -version
 
       - name: Install HyperEdit Pro
         run: |
@@ -58,4 +59,3 @@ jobs:
       - name: Run Pytest Suite
         run: |
           pytest -v
-

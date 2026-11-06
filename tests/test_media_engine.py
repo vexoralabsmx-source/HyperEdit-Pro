@@ -3,12 +3,10 @@
 import hashlib
 from pathlib import Path
 import subprocess
-import time
 import pytest
 from click.testing import CliRunner
 
 from hyperedit.cli.main import cli
-from hyperedit.core.exceptions import MediaNotFoundError, MediaProbeError
 from hyperedit.core.models.project import Project
 from hyperedit.media.artifacts import MediaArtifactGenerator
 from hyperedit.media.cache import MediaCacheManager

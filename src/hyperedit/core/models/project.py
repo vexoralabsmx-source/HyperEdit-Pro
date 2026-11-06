@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from pydantic import BaseModel, Field
 
-from hyperedit.core.constants import HYPEREDIT_PROJECT_SCHEMA_VERSION, STANDARD_SAMPLE_RATES
+from hyperedit.core.constants import HYPEREDIT_PROJECT_SCHEMA_VERSION
 from hyperedit.core.exceptions import ProjectValidationError, TimelineIntegrityError
 from hyperedit.core.models.captions import SubtitleTrack
 from hyperedit.core.models.export import ExportPreset

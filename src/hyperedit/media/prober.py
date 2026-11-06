@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
-from typing import Any, Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 from hyperedit.core.exceptions import (
     DependencyMissingError,
@@ -121,8 +121,6 @@ class FFprobeProber:
             codec_name = s.get("codec_name", "unknown")
 
             if codec_type == "video":
-                # Check if it's an image codec or motion video
-                is_image_codec = codec_name in ("mjpeg", "png", "jpeg2000", "webp", "bmp", "tiff", "gif")
                 w = int(s.get("width", 0))
                 h = int(s.get("height", 0))
                 fr_info = evaluate_fps(s.get("r_frame_rate"), s.get("avg_frame_rate"))

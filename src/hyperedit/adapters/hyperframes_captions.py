@@ -8,7 +8,6 @@ from typing import Optional
 
 from hyperedit.captions.models import (
     KineticAnimationMode,
-    SubtitleStyle,
     SubtitleTrack,
 )
 from hyperedit.core.exceptions import DependencyMissingError, RenderExecutionError

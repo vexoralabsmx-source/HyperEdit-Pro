@@ -1,9 +1,8 @@
 """SMPTE Timecode and frame math for HyperEdit Pro."""
 
 from fractions import Fraction
-import math
 from typing import Any, Union
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field
 
 from hyperedit.core.constants import STANDARD_FRAME_RATES
 from hyperedit.core.exceptions import ProjectValidationError

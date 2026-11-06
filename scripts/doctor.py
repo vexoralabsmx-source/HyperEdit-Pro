@@ -10,7 +10,7 @@ src_dir = root_dir / "src"
 if str(src_dir) not in sys.path:
     sys.path.insert(0, str(src_dir))
 
-from hyperedit.cli.commands.doctor_cmd import doctor_command
+from hyperedit.cli.commands.doctor_cmd import doctor_command  # noqa: E402
 
 if __name__ == "__main__":
     doctor_command()

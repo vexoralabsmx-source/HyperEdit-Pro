@@ -1,19 +1,14 @@
 """Non-destructive cinematic visual effects: camera shake, film grain, bloom/glow, motion blur and parallax."""
 
-import math
 from pathlib import Path
-import random
 import shutil
 import subprocess
-from typing import Any, Dict, List, Optional, Tuple
-import cv2
-import numpy as np
+from typing import Optional
 
 from hyperedit.core.exceptions import AdapterError, MediaNotFoundError
 from hyperedit.vfx.models import (
     BloomGlowConfig,
     CameraShakeConfig,
-    DepthParallaxLayer,
     FilmGrainConfig,
     MotionBlurConfig,
 )

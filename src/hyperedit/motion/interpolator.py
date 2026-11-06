@@ -6,7 +6,6 @@ from typing import Optional, Tuple
 from hyperedit.core.models.transforms import (
     AnimatedProperty,
     InterpolationMode,
-    Keyframe,
 )
 
 

@@ -4,8 +4,6 @@ import json
 import math
 from pathlib import Path
 import subprocess
-from typing import Generator, Tuple
-import click
 from click.testing import CliRunner
 import cv2
 import numpy as np
@@ -13,11 +11,8 @@ import pytest
 
 from hyperedit.adapters.blender import BlenderAdapter
 from hyperedit.cli.main import cli
-from hyperedit.core.models.export import ExportPreset, HardwareAccel
-from hyperedit.core.models.media import MediaAsset
 from hyperedit.core.models.project import Project, ProjectMetadata, ProjectSettings
-from hyperedit.core.models.timeline import Clip, Timeline, Track, TrackKind
-from hyperedit.rendering.engine import RenderEngine
+from hyperedit.core.models.timeline import Timeline, Track, TrackKind
 from hyperedit.vfx.compositing import LayerCompositor
 from hyperedit.vfx.effects import CinematicEffects
 from hyperedit.vfx.masks import MaskDefinition, MaskGenerator, MaskKeyframe, MaskShape
@@ -29,7 +24,6 @@ from hyperedit.vfx.models import (
     CameraShakeConfig,
     ChromaKeyConfig,
     FilmGrainConfig,
-    MotionBlurConfig,
     TrackingMethod,
 )
 from hyperedit.vfx.tracking import MotionTracker
@@ -128,7 +122,6 @@ def test_motion_tracking_follow_graphic_composite(synthetic_moving_object_video:
     )
 
     # Generate a follower overlay video with a target reticle following the tracked center
-    overlay_path = tmp_path / "reticle_overlay.mov"
     width, height, fps = 640, 360, 30.0
 
     # Create transparent video using FFmpeg and OpenCV

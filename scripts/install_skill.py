@@ -1,7 +1,6 @@
 """Automated installer for HyperEdit Pro across AI agent environments (Codex, Claude Code, Cursor, Gemini CLI)."""
 
 import argparse
-import os
 from pathlib import Path
 import shutil
 import sys

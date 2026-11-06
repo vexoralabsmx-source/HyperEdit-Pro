@@ -1,13 +1,14 @@
 """Mask authoring, keyframe animation, feathering and assisted rotoscoping."""
 
-import math
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 import cv2
 import numpy as np
 
 from hyperedit.core.exceptions import AdapterError, MediaNotFoundError
 from hyperedit.vfx.models import MaskDefinition, MaskKeyframe, MaskShape
+
+__all__ = ["MaskDefinition", "MaskGenerator", "MaskKeyframe", "MaskShape"]
 
 
 class MaskGenerator:

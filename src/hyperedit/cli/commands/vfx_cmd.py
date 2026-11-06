@@ -2,16 +2,13 @@
 
 import json
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional
 import click
 
 from hyperedit.adapters.blender import BlenderAdapter
 from hyperedit.vfx.compositing import LayerCompositor
 from hyperedit.vfx.effects import CinematicEffects
-from hyperedit.vfx.masks import MaskDefinition, MaskGenerator, MaskShape
 from hyperedit.vfx.models import (
-    BlenderRenderConfig,
-    BlenderRenderEngine,
     BloomGlowConfig,
     CameraShakeConfig,
     ChromaKeyConfig,

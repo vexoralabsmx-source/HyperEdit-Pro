@@ -6,7 +6,6 @@ import pytest
 from click.testing import CliRunner
 
 from hyperedit.cli.main import cli
-from hyperedit.core.exceptions import TimelineIntegrityError
 from hyperedit.core.models.export import ExportPreset, HardwareAccel
 from hyperedit.core.models.media import MediaAsset
 from hyperedit.core.models.project import Project, ProjectMetadata, ProjectSettings
@@ -14,7 +13,6 @@ from hyperedit.core.models.timeline import Clip, Timeline, Track, TrackKind
 from hyperedit.core.models.transforms import Transform
 from hyperedit.core.models.transitions import Transition, TransitionType
 from hyperedit.media.prober import FFprobeProber
-from hyperedit.rendering.compiler import FiltergraphCompiler
 from hyperedit.rendering.engine import RenderEngine
 from hyperedit.timeline.engine import TimelineEngine
 from hyperedit.timeline.history import TimelineHistory
@@ -216,7 +214,7 @@ def test_real_render_complex_montage(tmp_path: Path):
     prober = FFprobeProber()
     pool_assets = {}
     for color, p in media_paths.items():
-        comp_asset = prober.probe_file(p)
+        prober.probe_file(p)
         pool_assets[f"asset_{color}"] = MediaAsset(
             asset_id=f"asset_{color}",
             file_path=str(p),

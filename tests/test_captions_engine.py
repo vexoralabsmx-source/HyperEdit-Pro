@@ -9,9 +9,6 @@ from click.testing import CliRunner
 from hyperedit.adapters.hyperframes_captions import HyperFramesCaptionsAdapter
 from hyperedit.captions.engine import CaptionsEngine
 from hyperedit.captions.formats import (
-    ASSGenerator,
-    SRTParser,
-    VTTParser,
     hex_to_ass_color,
     ms_to_ass_time,
     ms_to_srt_time,
@@ -24,8 +21,6 @@ from hyperedit.captions.kinetic import (
 )
 from hyperedit.captions.models import (
     KineticAnimationMode,
-    STANDARD_CAPTION_PRESETS,
-    SubtitleAlignment,
     SubtitleCue,
     SubtitleStyle,
     SubtitleTrack,
@@ -165,7 +160,7 @@ def test_kinetic_karaoke_highlight_ass_generation() -> None:
     # In ASS, yellow highlight #FFE600 translates to &H0000E6FF
     assert r"\c&H0000E6FF&" in ass_text
     # Check that 3 separate dialogue lines were generated for word highlights
-    dialogue_lines = [l for l in ass_text.splitlines() if l.startswith("Dialogue:")]
+    dialogue_lines = [line for line in ass_text.splitlines() if line.startswith("Dialogue:")]
     assert len(dialogue_lines) == 3
     assert r"{\c&H0000E6FF&}Alpha{\r} Beta Gamma" in dialogue_lines[0]
     assert r"Alpha {\c&H0000E6FF&}Beta{\r} Gamma" in dialogue_lines[1]
@@ -191,7 +186,7 @@ def test_kinetic_pop_scale_ass_generation() -> None:
     track = SubtitleTrack(default_style=style, cues=[cue])
     ass_text = KineticTypographyCompiler.compile_ass(track)
 
-    dialogue_lines = [l for l in ass_text.splitlines() if l.startswith("Dialogue:")]
+    dialogue_lines = [line for line in ass_text.splitlines() if line.startswith("Dialogue:")]
     assert len(dialogue_lines) == 2
     # Verify scale tags \fscx115\fscy115
     assert r"\fscx115\fscy115" in dialogue_lines[0]

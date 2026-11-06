@@ -1,18 +1,13 @@
 """SubRip (SRT), WebVTT (VTT), and Advanced SubStation Alpha (ASS) parsers and exporters."""
 
-from pathlib import Path
 import re
-from typing import List, Optional, Tuple
+from typing import List
 
 from hyperedit.captions.models import (
     SubtitleAlignment,
     SubtitleCue,
-    SubtitleFormat,
-    SubtitleStyle,
     SubtitleTrack,
-    WordTimestamp,
 )
-from hyperedit.core.exceptions import ProjectValidationError
 
 
 def ms_to_srt_time(ms: int) -> str:
@@ -187,7 +182,7 @@ class VTTParser:
         # Process cues
         raw_blocks = re.split(r"\n\s*\n", "\n".join(lines[idx:]).strip())
         for block in raw_blocks:
-            b_lines = [l.strip() for l in block.splitlines() if l.strip()]
+            b_lines = [line_str.strip() for line_str in block.splitlines() if line_str.strip()]
             if not b_lines:
                 continue
 

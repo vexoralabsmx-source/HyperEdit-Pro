@@ -4,7 +4,7 @@ import math
 from pathlib import Path
 import shutil
 import subprocess
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import List, Optional
 import cv2
 import numpy as np
 
@@ -20,7 +20,6 @@ from hyperedit.core.models.color import (
     ColorMetadata,
     ColorRange,
     ColorStandard,
-    LUTInterpolation,
 )
 from hyperedit.media.prober import FFprobeProber
 
@@ -359,8 +358,7 @@ class ColorGradingEngine:
             raise MediaNotFoundError(f"Media file not found: {p}")
 
         prober = FFprobeProber()
-        asset = prober.probe_file(p)
-        pv = asset.primary_video
+        _ = prober.probe_file(p)
 
         # Defaults
         color_space = "bt709"

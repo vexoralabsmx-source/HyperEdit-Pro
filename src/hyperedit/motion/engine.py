@@ -1,7 +1,6 @@
 """Spatial motion, keyframing, virtual camera, and Ken Burns engine for HyperEdit Pro."""
 
-import math
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from hyperedit.core.models.timeline import Clip
 from hyperedit.core.models.transforms import (

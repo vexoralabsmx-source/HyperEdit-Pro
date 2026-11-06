@@ -1,8 +1,7 @@
 """Domain models and structured metadata schemas for HyperEdit Pro Media Engine."""
 
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 from pydantic import BaseModel, Field
 
 

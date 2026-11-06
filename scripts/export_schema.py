@@ -10,7 +10,7 @@ src_dir = root_dir / "src"
 if str(src_dir) not in sys.path:
     sys.path.insert(0, str(src_dir))
 
-from hyperedit.core.models.project import Project
+from hyperedit.core.models.project import Project  # noqa: E402
 
 
 def export_schema() -> Path:

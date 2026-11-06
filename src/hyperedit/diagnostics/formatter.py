@@ -1,7 +1,5 @@
 """Formatting utilities for diagnostic reports."""
 
-import json
-from typing import Optional
 from hyperedit.diagnostics.checker import DiagnosticReport, DiagnosticStatus
 
 

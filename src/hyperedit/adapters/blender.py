@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import List, Optional
 
 from hyperedit.core.exceptions import AdapterError, DependencyMissingError, MediaNotFoundError
 from hyperedit.core.models.media import MediaAsset
@@ -14,7 +14,6 @@ from hyperedit.core.models.timeline import Clip, Track, TrackKind
 from hyperedit.media.prober import FFprobeProber
 from hyperedit.vfx.models import (
     BlenderRenderConfig,
-    BlenderRenderEngine,
     BlenderRenderResult,
 )
 

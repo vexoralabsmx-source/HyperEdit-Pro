@@ -1,8 +1,7 @@
 """Domain models and data schemas for HyperEdit Pro VFX, Tracking & Compositing."""
 
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 from pydantic import BaseModel, Field
 
 

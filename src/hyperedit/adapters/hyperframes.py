@@ -1,8 +1,6 @@
 """Professional HyperFrames integration adapter for HyperEdit Pro."""
 
 from enum import Enum
-import json
-import os
 from pathlib import Path
 import re
 import shutil
@@ -27,16 +25,20 @@ class CompositionTemplate(str, Enum):
 class HyperFramesAdapter:
     """Bridges HyperFrames HTML/CSS/GSAP motion graphics into HyperEdit Pro multi-track timelines."""
 
-    def __init__(self, cli_bin: Optional[str] = None) -> None:
-        self.cli_bin = cli_bin or shutil.which("hyperframes")
+    def __init__(
+        self,
+        cli_bin: Optional[str] = None,
+        ffprobe_bin: Optional[str] = None,
+    ) -> None:
+        self.cli_bin = cli_bin or shutil.which("hyperframes") or shutil.which("hyperframes.cmd")
         self.npx_bin = shutil.which("npx") or shutil.which("npx.cmd")
         self.node_bin = shutil.which("node")
         self.ffmpeg_bin = shutil.which("ffmpeg")
-        self.ffprobe_bin = shutil.which("ffprobe")
+        self.ffprobe_bin = ffprobe_bin or shutil.which("ffprobe")
 
     def is_available(self) -> bool:
-        """Check if HyperFrames can be executed directly or via npx."""
-        return bool(self.cli_bin or self.npx_bin or self.node_bin)
+        """Check if HyperFrames CLI executable is directly installed."""
+        return bool(self.cli_bin)
 
     def create_composition(
         self,
@@ -154,12 +156,10 @@ class HyperFramesAdapter:
 
         # Attempt primary rendering via HyperFrames CLI if available
         rendered_via_cli = False
-        if self.is_available():
-            exec_bin = self.cli_bin or self.npx_bin or "npx"
+        if self.is_available() and self.cli_bin:
             target_format = "mov" if format.lower() == "mov" else "webm"
             cmd = [
-                exec_bin,
-                "hyperframes",
+                self.cli_bin,
                 "render",
                 "-c",
                 str(comp_path),
@@ -178,7 +178,8 @@ class HyperFramesAdapter:
                     capture_output=True,
                     text=True,
                     check=False,
-                    timeout=35,
+                    stdin=subprocess.DEVNULL,
+                    timeout=30,
                 )
                 if proc.returncode == 0 and out_file.is_file() and out_file.stat().st_size > 1000:
                     rendered_via_cli = True
@@ -280,12 +281,6 @@ class HyperFramesAdapter:
         width = int(w_match.group(1)) if w_match else 1920
         height = int(h_match.group(1)) if h_match else 1080
 
-        # Extract text content for accurate graphic rendering
-        title_match = re.search(r'<h1[^>]*>(.*?)</h1>', html_text, re.DOTALL)
-        sub_match = re.search(r'<p[^>]*class=["\'][^"\']*subtitle[^"\']*["\'][^>]*>(.*?)</p>', html_text, re.DOTALL)
-
-        title = re.sub(r'<[^>]+>', '', title_match.group(1)).strip() if title_match else "HYPEREDIT PRO"
-        subtitle = re.sub(r'<[^>]+>', '', sub_match.group(1)).strip() if sub_match else "MOTION SYSTEM"
 
         ext = output_file.suffix.lower()
         use_prores = ext in (".mov", ".prores") or format.lower() == "mov"

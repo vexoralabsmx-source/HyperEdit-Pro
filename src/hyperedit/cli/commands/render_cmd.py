@@ -2,7 +2,6 @@
 
 from pathlib import Path
 import sys
-from typing import Optional
 import click
 
 from hyperedit.core.exceptions import HyperEditError

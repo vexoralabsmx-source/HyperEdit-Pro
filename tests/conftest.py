@@ -1,7 +1,5 @@
 """Pytest fixtures and configuration for HyperEdit Pro."""
 
-import json
-from pathlib import Path
 import pytest
 
 from hyperedit.core.models.project import Project

@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple
 
 from hyperedit.core.exceptions import TimelineIntegrityError
-from hyperedit.core.models.timeline import Clip, Timeline, Track, TrackKind
+from hyperedit.core.models.timeline import Clip, Timeline, Track
 from hyperedit.core.protocols import TimelineEngineProtocol
 
 
