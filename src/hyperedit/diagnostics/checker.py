@@ -315,7 +315,8 @@ class EnvironmentChecker:
             "paletteuse",
         ]
 
-        found = [f for f in essential_filters if re.search(rf"\b{f}\b", full_text)]
+        all_probed = essential_filters + ["ass"]
+        found = [f for f in all_probed if re.search(rf"\b{f}\b", full_text)]
         missing = [f for f in essential_filters if f not in found]
 
         if not missing:

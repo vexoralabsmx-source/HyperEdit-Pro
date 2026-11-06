@@ -29,6 +29,7 @@ from hyperedit.captions.models import (
 from hyperedit.captions.transcriber import SpeechTranscriber
 from hyperedit.cli.main import cli
 from hyperedit.core.exceptions import DependencyMissingError
+from hyperedit.diagnostics.checker import EnvironmentChecker
 
 
 @pytest.fixture
@@ -278,6 +279,11 @@ def test_safe_areas_vertical_and_horizontal() -> None:
 
 def test_real_burn_in_traditional_and_kinetic(synthetic_video_mp4: Path, tmp_path: Path) -> None:
     """Verify real video render with burned-in subtitles: traditional preset vs kinetic typography."""
+    checker = EnvironmentChecker()
+    report = checker.run_all_checks()
+    if "subtitles" not in report.available_filters and "ass" not in report.available_filters:
+        pytest.skip("FFmpeg lacks libass filter ('subtitles' or 'ass'); skipping burn-in test.")
+
     engine = CaptionsEngine()
 
     track = SubtitleTrack(

@@ -28,6 +28,7 @@ from hyperedit.core.exceptions import (
     RenderExecutionError,
 )
 from hyperedit.core.protocols import CaptionsEngineProtocol
+from hyperedit.diagnostics.checker import EnvironmentChecker
 
 
 class CaptionsEngine(CaptionsEngineProtocol):
@@ -127,13 +128,22 @@ class CaptionsEngine(CaptionsEngineProtocol):
         out.write_text(content, encoding="utf-8")
         return out
 
-    def build_burn_filter(self, track: SubtitleTrack, ass_path: Path | str) -> str:
+    def build_burn_filter(self, track: Optional[SubtitleTrack], ass_path: Path | str) -> str:
         """Generate safe, cross-platform FFmpeg filter argument for burning subtitles via libass."""
         path = Path(ass_path).resolve()
         forward = path.as_posix()
         # Escape Windows drive colon: C:/... -> C\:/...
         escaped = forward.replace(":", r"\:")
-        return f"ass=filename='{escaped}'"
+        checker = EnvironmentChecker(ffmpeg_bin=self.ffmpeg_bin)
+        report = checker.run_all_checks()
+        if "ass" in report.available_filters:
+            return f"ass=filename='{escaped}'"
+        if "subtitles" in report.available_filters:
+            return f"subtitles=filename='{escaped}'"
+        raise DependencyMissingError(
+            "FFmpeg lacks libass support (neither 'ass' nor 'subtitles' filter detected). "
+            "Install FFmpeg compiled with libass to burn subtitles."
+        )
 
     def burn_subtitles(
         self,

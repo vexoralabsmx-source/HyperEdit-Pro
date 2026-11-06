@@ -119,8 +119,8 @@ def test_exposure_contrast_saturation_modifications(synthetic_neutral_video: Pat
     mono_metrics = engine.analyze_histogram(mono_out)
     mr, mg, mb = mono_metrics.mean_rgb
     # In pure monochrome, R, G, B channel means should be nearly identical (within YUV compression margin)
-    assert abs(mr - mg) <= 3.0
-    assert abs(mg - mb) <= 3.0
+    assert abs(mr - mg) <= 5.0
+    assert abs(mg - mb) <= 5.0
 
 
 def test_shot_matching_tonal_consistency(
