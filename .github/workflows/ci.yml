@@ -67,4 +67,9 @@ jobs:
 
       - name: Run Pytest Suite
         run: |
-          pytest -v
+          pytest -v --tb=short
+
+      - name: Output Pytest Failures
+        if: failure()
+        run: |
+          pytest -v --tb=short --last-failed

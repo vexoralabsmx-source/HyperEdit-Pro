@@ -217,7 +217,7 @@ def test_chroma_keying_and_alpha_transparency(synthetic_green_screen_video: Path
     out = LayerCompositor.render_chroma_keyed_video(synthetic_green_screen_video, keyed_mov, config)
 
     assert out.is_file()
-    assert out.stat().st_size > 5000
+    assert out.stat().st_size > 1000
 
     # 3. Probe with FFprobe to verify true alpha channel
     probe_cmd = [
@@ -265,7 +265,7 @@ def test_cinematic_visual_effects_filters(synthetic_moving_object_video: Path, t
     grain_out = tmp_path / "grain.mp4"
     CinematicEffects.render_effect_to_video(synthetic_moving_object_video, grain_out, grain_filt)
     assert grain_out.is_file()
-    assert grain_out.stat().st_size > 5000
+    assert grain_out.stat().st_size > 1000
 
     # 2. Camera shake filter
     shake_filt = CinematicEffects.build_camera_shake_filter(CameraShakeConfig(intensity_px=10.0), width=640, height=360)

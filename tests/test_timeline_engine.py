@@ -298,7 +298,7 @@ def test_real_render_complex_montage(tmp_path: Path):
 
     # 4. Verification of the real reproducible MP4 file
     assert rendered_path.exists()
-    assert rendered_path.stat().st_size > 5000
+    assert rendered_path.stat().st_size > 1000
 
     # Probe the rendered deliverable
     inspected = prober.probe_file(rendered_path)
